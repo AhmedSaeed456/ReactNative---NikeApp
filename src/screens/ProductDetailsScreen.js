@@ -9,6 +9,7 @@ import {
   Pressable,
 } from "react-native";
 import products from "../data/products";
+import { Ionicons } from "@expo/vector-icons";
 
 const ProductDetailsScreen = () => {
   const product = products[0];
