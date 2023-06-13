@@ -9,7 +9,7 @@ const CartListItem = ({ cartItem }) => {
   };
 
   const decreaseQuantity = () => {
-    quantity > 0 ? setQuantity(quantity - 1) : setQuantity(0);
+    quantity > 1 ? setQuantity(quantity - 1) : setQuantity(0);
   };
 
   return (

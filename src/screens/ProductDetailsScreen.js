@@ -11,8 +11,10 @@ import {
 import products from "../data/products";
 import { Ionicons } from "@expo/vector-icons";
 
-const ProductDetailsScreen = () => {
-  const product = products[0];
+const ProductDetailsScreen = ({ route }) => {
+  const { productIndex } = route.params;
+  console.log(productIndex);
+  const product = products[productIndex];
   const { width } = useWindowDimensions();
 
   return (
@@ -28,7 +30,7 @@ const ProductDetailsScreen = () => {
               />
             )}
             horizontal
-            showsHorizontalScrollIndicator={false}
+            showsHorizontalScrollIndicator={true}
             pagingEnabled
           />
           <View style={{ padding: 20 }}>
@@ -65,11 +67,12 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 30,
     fontWeight: "300",
+    marginBottom: 50,
   },
   button: {
     backgroundColor: "black",
-    position: "relative",
-    bottom: 10,
+    position: "absolute",
+    bottom: 0,
     // width: 200,
     alignSelf: "center",
     alignItems: "center",
