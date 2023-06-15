@@ -28,8 +28,7 @@ To run the Nike App locally on your machine, follow these steps:
 - React Native
 - Redux
 - React Navigation
-- Axios (for API requests)
-- [Add any additional libraries or technologies used]
+
 
 ## Contributing
 
