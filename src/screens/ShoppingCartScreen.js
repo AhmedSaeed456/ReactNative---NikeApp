@@ -9,34 +9,48 @@ import {
 } from "react-native";
 import CartListItem from "../components/CartListItem";
 import cart from "../data/cart";
+import { useSelector, useDispatch } from "react-redux";
+import { cartSlice } from "../store/cartSlice";
 
-const ShoppingCartTotal = () => (
+const ShoppingCartTotal = ({ totalPrice, deliveryPrice }) => (
   <View style={styles.totalContiner}>
     <View style={styles.row}>
       <Text style={styles.text}>Subtotal</Text>
-      <Text style={styles.text}>410,00 US$</Text>
+      <Text style={styles.text}>{totalPrice} US$</Text>
     </View>
     <View style={styles.row}>
       <Text style={styles.text}>Delivery</Text>
-      <Text style={styles.text}>16,50 US$</Text>
+      <Text style={styles.text}>{deliveryPrice} US$</Text>
     </View>
     <View style={styles.row}>
       <Text style={styles.textBold}>Total</Text>
-      <Text style={styles.textBold}>426,50 US$</Text>
+      <Text style={styles.textBold}>
+        {parseInt(parseInt(totalPrice) + parseInt(deliveryPrice))} US$
+      </Text>
     </View>
   </View>
 );
 
 const ShoppingCartScreen = () => {
+  const totalPrice = useSelector((state) => state.cart.totalPrice);
+  const deliveryPrice = useSelector((state) => state.cart.deliveryFee);
+  const dispatch = useDispatch();
+
+  const cartItems = useSelector((state) => state.cart.items);
   const { width } = useWindowDimensions();
 
   return (
     <View>
       <FlatList
         style={{ width, marginTop: 20 }}
-        data={cart}
+        data={cartItems}
         renderItem={({ item }) => <CartListItem cartItem={item} />}
-        ListFooterComponent={<ShoppingCartTotal />}
+        ListFooterComponent={
+          <ShoppingCartTotal
+            totalPrice={totalPrice}
+            deliveryPrice={deliveryPrice}
+          />
+        }
       />
       <Pressable
         style={[styles.button, { width: width - width / 8 }]}
@@ -56,6 +70,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     borderColor: "gainsboro",
     borderTopWidth: 1,
+    marginBottom: 70,
   },
   row: {
     flexDirection: "row",
@@ -72,8 +87,8 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "black",
-    position: "relative",
-    bottom: 10,
+    position: "absolute",
+    bottom: 0,
     // width: 200,
     alignSelf: "center",
     alignItems: "center",

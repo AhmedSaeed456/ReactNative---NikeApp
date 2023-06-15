@@ -10,28 +10,47 @@ import {
 } from "react-native";
 import products from "../data/products";
 import { Ionicons } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { cartSlice } from "../store/cartSlice";
 
 const ProductDetailsScreen = () => {
   const product = useSelector((state) => state.products.selectedProduct);
+  const dispatch = useDispatch();
+  const btnColor = useSelector((state) => state.cart.color);
+
   const { width } = useWindowDimensions();
 
+  const addToCart = () => {
+    dispatch(cartSlice.actions.addCartItem({ product }));
+  };
   return (
     <View>
       <ScrollView>
         <View>
-          <FlatList
-            data={product.images}
-            renderItem={({ item }) => (
-              <Image
-                source={{ uri: item }}
-                style={{ width: width, aspectRatio: 1 }}
-              />
-            )}
-            horizontal
-            showsHorizontalScrollIndicator={true}
-            pagingEnabled
-          />
+          <View
+            style={{
+              borderColor: "#A10D0D",
+              borderWidth: 0,
+              borderRadius: 20,
+            }}
+          >
+            <FlatList
+              data={product.images}
+              renderItem={({ item }) => (
+                <Image
+                  source={{ uri: item }}
+                  style={{
+                    width: width,
+                    aspectRatio: 1,
+                    borderRadius: 70,
+                  }}
+                />
+              )}
+              horizontal
+              showsHorizontalScrollIndicator={true}
+              pagingEnabled
+            />
+          </View>
           <View style={{ padding: 20 }}>
             <Text style={styles.title}>{product.name}</Text>
             <Text style={styles.price}>{product.price} $</Text>
@@ -40,9 +59,12 @@ const ProductDetailsScreen = () => {
         </View>
       </ScrollView>
       <Pressable
-        style={[styles.button, { width: width - width / 8 }]}
+        style={[
+          styles.button,
+          { width: width - width / 8, backgroundColor: btnColor },
+        ]}
         onPress={() => {
-          console.warn("clicked");
+          addToCart();
         }}
       >
         <Text style={styles.buttonText}>Add to Cart</Text>
@@ -56,6 +78,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
     fontWeight: "500",
     marginVertical: 10,
+    color: "#A10D0D",
   },
   price: {
     fontWeight: "500",
