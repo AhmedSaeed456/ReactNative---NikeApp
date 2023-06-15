@@ -7,13 +7,17 @@ import ProductDetailsScreen from "./src/screens/ProductDetailsScreen";
 import { StatusBar } from "expo-status-bar";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import Navigation from "./src/navigation";
+import { Provider } from "react-redux";
+import { store } from "./src/store";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
     // <View style={styles.container}>
-    <Navigation />
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
     // {/* </View> */}
   );
 }
